@@ -6,18 +6,10 @@ import json
 from io import StringIO
 import re
 
-data_structure={
-    'title':'',
-    'description':'',
-    'content':'',
-    'date':'',
-    'provider':'',
-}
+
 def api_call(url):
     try:
-        # browser = webdriver.Chrome()
-        # browser.get(url)
-        # html = browser.page_source
+
         res = requests.get(url=url)
         soup = BeautifulSoup(res.content, 'html5lib') 
         return soup
@@ -62,12 +54,12 @@ def load_data_into_db(data):
         # Data to be inserted
         print(' data' , data)
         inserted_data = (
-            data.get('url', '').strip(),  # Get 'url' or default to an empty string
-            data.get('description', '').strip(),  # Get 'title' or default to an empty string
-            data.get('title', '').strip(),  # Get 'price' or default to 0
-            data.get('provider', '').strip(),  # Get 'uppercentage' or default to an empty string
-            data.get('date', '').strip(),  # Get 'upprice' or default to an empty string
-            data.get('content', '').strip() # Get 'timestamp' or default to an empty string
+            data.get('url', '').strip(),  
+            data.get('description', '').strip(),  
+            data.get('title', '').strip(), 
+            data.get('provider', '').strip(),  
+            data.get('date', '').strip(),  
+            data.get('content', '').strip() 
         )
         
         curr.execute(insert_query , inserted_data)
@@ -103,7 +95,7 @@ def extract_data_from_bbc (url):
                     data_points['description']=p.text
                 data_points['provider']='bbc'
                 data_points['date']=get_server_date()
-                # now find the content of the news
+
                 print('url' , data_points['url'])
                 if data_points['url'].find('articles') > -1:
                     content_soup = api_call(url=data_points['url'])
